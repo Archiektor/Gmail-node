@@ -9,11 +9,14 @@ app.use(bodyParser.urlencoded({extended: false})); //parse app/x-www-form-unlenc
 
 app.use(bodyParser.json()); //parse app/json
 
+let smtp_login = process.env.SMTP_LOGIN || '---'
+let smtp_pass = process.env.SMTP_PASSWORD || '---'
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'darkArchiektor369@gmail.com', // generated ethereal user
-        pass: '2212Hny%', // generated ethereal password
+        user: smtp_login, // generated ethereal user
+        pass: smtp_pass, // generated ethereal password
     },
 });
 
@@ -41,6 +44,8 @@ app.post('/sendMessage', async (req, res) => {
     res.send('all ok');
 })
 
-app.listen(3010, () => {
+let port = process.env.PORT || 3010;
+
+app.listen(port, () => {
     console.log('Example app is listening on port 3010');
 })
